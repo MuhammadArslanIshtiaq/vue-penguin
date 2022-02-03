@@ -2,7 +2,7 @@
 <template>
 
   <b-navbar toggleable="lg" class="navbar-background">
-    <b-navbar-brand class="align-center" href="#">
+    <b-navbar-brand href="#">
       <img src="logo.png" class="d-inline-block align-top logo-img" alt="Kitten">
     </b-navbar-brand>
 
@@ -16,14 +16,9 @@
         <b-nav-item class="menu_background" href="#">Event</b-nav-item>
         <b-nav-item class="menu_background" href="#">F.A.Q</b-nav-item>
       </b-navbar-nav>
-
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-
-         <a href="#"><img src="arrow.png" class=" align-top arrow d-sm-none d-md-block d-none d-sm-block " alt="Kitten"></a>
-
-      </b-navbar-nav>
     </b-collapse>
+
+    <a href="#"><img src="arrow.png" class=" align-top arrow d-sm-none d-md-block d-none d-sm-block " alt="Kitten"></a>
   </b-navbar>
 
 </template>
@@ -34,7 +29,7 @@
 }
 .navbar-background{
   background-color: #ff7200;
-  height: 20% !important;
+  height: 60px !important;
 }
 .logo-img {
    position: absolute;
@@ -45,11 +40,11 @@
 .arrow{
    position: absolute;
    right: 5vw;
-  width: 10%;
-  top: 0vw;
+  width: 15%;
+  top: -1vw;
 }
 .navbar-nav{
-  margin-left: 20vw !important;
+margin-top: 3.5vh !important;
 }
 
 .nav-link{
@@ -61,9 +56,9 @@ color: #7d19b9 !important;
   background: url("../static/menu_button.png") no-repeat ;
   background-size: cover;
   background-position: center;
-  margin-left: 5vw;
-  padding: 18px 18px;
+  padding: 18px 50px;
   font-size: 1.0rem;
+  font-weight: bold;
   font-family: 'minecraft';
 
 
@@ -76,9 +71,14 @@ color: #7d19b9 !important;
    .logo-img {
      display: block;
       margin: auto;
-      width: 35%;
+      max-width: 50%;
       position: absolute;
-      left: 31%;
+      left: 20%;
+      width: auto;
+}
+
+.navbar-toggler {
+  margin-left: 70vw;
 }
 
   }
