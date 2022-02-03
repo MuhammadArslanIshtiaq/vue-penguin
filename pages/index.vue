@@ -1,5 +1,6 @@
 <template>
-  <Tutorial/>
+  <Navbar></Navbar>
+
 </template>
 
 <script>
