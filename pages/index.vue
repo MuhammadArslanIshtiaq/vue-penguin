@@ -2,6 +2,7 @@
   <div class="body">
     <Navbar/>
     <HeroSection/>
+    <Social/>
   </div>
 
 
