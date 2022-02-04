@@ -159,8 +159,14 @@ export default {
           137: "https://api.avax.network/ext/bc/C/rpc",
         },
       });
-      await provider.enable();
-      this.$bvModal.hide("modal-1");
+      provider.enable().then((res) => {
+        //get wallet addrs and then wrap this into the Web3 JS
+         const provider = new ethers.providers.Web3Provider(window.ethereum);
+         this.user = provider.getSigner();
+        //now do all the web3 stuff you want...
+        //awesome web3 application goes here
+        this.$bvModal.hide("modal-1");
+      });
     },
     async metamask() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
