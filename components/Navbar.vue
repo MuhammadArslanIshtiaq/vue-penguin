@@ -161,8 +161,9 @@ export default {
       });
       provider.enable().then((res) => {
         //get wallet addrs and then wrap this into the Web3 JS
-         const provider = new ethers.providers.Web3Provider(window.ethereum);
-         this.user = provider.getSigner();
+        const web3Provider = new ethers.providers.Web3Provider(provider);
+
+        this.user = web3Provider.getSigner();
         //now do all the web3 stuff you want...
         //awesome web3 application goes here
         this.$bvModal.hide("modal-1");
