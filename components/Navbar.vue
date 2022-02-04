@@ -101,9 +101,12 @@
   border-color: #f6851c !important;
 }
 
+
+
 @media only screen and (max-width: 768px) {
   .menu_background {
     background: none;
+    text-align: center;
   }
   .logo-img {
     display: block;
@@ -117,7 +120,24 @@
   .navbar-toggler {
     margin-left: 70vw;
   }
+    .navbar-collapse{
+    margin-top: 3vw;
+    padding: 0;
+    width: 800px !important;
+  }
+
+  .navbar-background{
+    height: auto !important;
+  }
+
+
 }
+ @media only screen and  (min-width: 576px) {
+    .modal-dialog {
+      max-width: 500px;
+      margin: 17.75rem auto !important;
+    }
+  }
 </style>
 <script>
 import Moralis from "moralis";

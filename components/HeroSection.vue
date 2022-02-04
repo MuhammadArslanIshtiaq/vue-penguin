@@ -3,12 +3,13 @@
     <b-jumbotron class="jumbotron"></b-jumbotron>
     <b-container class="bv-example-row fluid">
       <b-row>
-         <b-col class="text-center" cols="3"></b-col>
-        <b-col class="text-center" cols="3">
+
+        <b-col class="text-center mb-5 mt-5"  sm="12" md="6">
           <img src="getting_started.png" class="img-responsive  img-size"
         /></b-col>
-        <b-col class="text-center" cols="3">
-          <img src="getting_started.png" class="img-responsive  img-size"
+
+        <b-col class="text-center mt-5 mb-5 "  sm="12" md="6">
+          <img src="White_Paper.png" class="img-responsive  img-size"
         /></b-col>
       </b-row>
     </b-container>
