@@ -8,9 +8,6 @@
 
 </template>
 <style>
-  .body{
-    background-color: #9fe0fc;
-  }
 </style>
 <script>
 export default {

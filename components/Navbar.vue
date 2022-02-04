@@ -19,9 +19,9 @@
           <b-nav-item class="menu_background" v-b-modal.modal-1 v-if="!user">
             Connect
           </b-nav-item>
-          <b-nav-item class="menu_background" v-if="user" @click="metamask"
-            >Logout</b-nav-item
-          >
+          <b-nav-item class="menu_background" v-if="user" @click="logout">
+            Logout
+          </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
 
@@ -90,7 +90,7 @@
   background: url("../static/menu_button.png") no-repeat;
   background-size: cover;
   background-position: center;
-  padding: 18px 50px;
+  padding: 30px 45px;
   font-size: 1rem;
   font-weight: bold;
   font-family: "minecraft";
@@ -100,8 +100,6 @@
   background-color: #f6851c !important;
   border-color: #f6851c !important;
 }
-
-
 
 @media only screen and (max-width: 768px) {
   .menu_background {
@@ -120,32 +118,26 @@
   .navbar-toggler {
     margin-left: 70vw;
   }
-    .navbar-collapse{
+  .navbar-collapse {
     margin-top: 3vw;
     padding: 0;
     width: 800px !important;
   }
 
-  .navbar-background{
+  .navbar-background {
     height: auto !important;
   }
-
-
 }
- @media only screen and  (min-width: 576px) {
-    .modal-dialog {
-      max-width: 500px;
-      margin: 17.75rem auto !important;
-    }
+@media only screen and (min-width: 576px) {
+  .modal-dialog {
+    max-width: 500px;
+    margin: 17.75rem auto !important;
   }
+}
 </style>
 <script>
-import Moralis from "moralis";
-import Web3 from "web3";
+import { ethers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-const serverUrl = "https://tcqnxk4l54sy.usemoralis.com:2053/server";
-const appId = "MH8356RqfyQSJWS8FCfeAhIHOjj1AqEH9U9IDG6T";
-Moralis.start({ serverUrl, appId });
 
 export default {
   name: "Navbar",
@@ -154,34 +146,27 @@ export default {
       user: null,
     };
   },
+  mounted() {
+    this.metamask();
+  },
   methods: {
-    connectWallet() {
-      Moralis.authenticate({
-        provider: "walletconnect",
-        mobileLinks: [
-          "rainbow",
-          "metamask",
-          "argent",
-          "trust",
-          "imtoken",
-          "pillar",
-        ],
-      }).then((user) => {
-        this.user = user;
-        this.$bvModal.hide("modal-1");
-      });
+    logout() {
+      this.user = null;
     },
-    metamask() {
-      if (this.user) {
-        Moralis.User.logOut().then(() => {
-          this.user = null;
-        });
-        return;
-      }
-      Moralis.authenticate().then((user) => {
-        this.user = user;
-        this.$bvModal.hide("modal-1");
+    async connectWallet() {
+      const provider = new WalletConnectProvider({
+        rpc: {
+          137: "https://api.avax.network/ext/bc/C/rpc",
+        },
       });
+      await provider.enable();
+      this.$bvModal.hide("modal-1");
+    },
+    async metamask() {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      this.user = provider.getSigner();
+      this.$bvModal.hide("modal-1");
     },
   },
 };
