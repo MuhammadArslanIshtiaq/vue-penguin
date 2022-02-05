@@ -16,21 +16,33 @@
           <b-nav-item class="menu_background" href="#">Home</b-nav-item>
           <b-nav-item class="menu_background" href="#">Guide</b-nav-item>
           <b-nav-item class="menu_background" href="#">F.A.Q</b-nav-item>
-          <b-nav-item class="menu_background" v-b-modal.modal-1 v-if="!user">
-            Connect
-          </b-nav-item>
-          <b-nav-item class="menu_background" v-if="user" @click="logout">
-            Logout
-          </b-nav-item>
+          <template v-if="loading">
+            <b-nav-item class="menu_background">
+              Checking Wallet
+            </b-nav-item>
+          </template>
+          <template v-else>
+            <b-nav-item class="menu_background" v-b-modal.modal-1 v-if="!user">
+              Connect
+            </b-nav-item>
+            <b-nav-item class="menu_background" v-if="user" @click="logout">
+              Logout
+            </b-nav-item>
+          </template>
         </b-navbar-nav>
       </b-collapse>
 
-      <a href="#"
-        ><img
+      <a href="#">
+        <img
           src="arrow.png"
-          class="align-top arrow d-sm-none d-md-none d-none d-lg-block d-sm-block"
+          class="
+            align-top
+            arrow
+            d-sm-none d-md-none d-none d-lg-block d-sm-block
+          "
           alt="Kitten"
-      /></a>
+        />
+      </a>
     </b-navbar>
 
     <b-modal id="modal-1" title="Connect Wallets" hide-footer>
@@ -38,17 +50,17 @@
         <b-row>
           <b-col cols="12">
             <div class="text-center">
-              <b-button class="metamask w-75" @click="metamask"
-                >Connect with MetaMask</b-button
-              >
+              <b-button class="metamask w-75" @click="metamask">
+                Connect with MetaMask
+              </b-button>
             </div>
           </b-col>
 
           <b-col cols="12" class="mt-3">
             <div class="text-center">
-              <b-button variant="primary w-75" @click="connectWallet"
-                >Connect with WalletConnect</b-button
-              >
+              <b-button variant="primary w-75" @click="connectWallet">
+                Connect with WalletConnect
+              </b-button>
             </div>
           </b-col>
         </b-row>
@@ -103,38 +115,36 @@
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .logo-img {
-
-     display: block;
+    display: block;
     margin: auto;
     max-width: 50%;
     position: absolute;
     left: 20%;
     width: auto;
   }
-    .navbar-nav {
-  margin-top: 5.5vh !important;
-}
+  .navbar-nav {
+    margin-top: 5.5vh !important;
+  }
   .arrow {
     right: 10vw;
     width: 15%;
   }
- .menu_background {
+  .menu_background {
     background: none;
     text-align: center;
   }
-    .navbar-collapse {
+  .navbar-collapse {
     margin-top: 3vw;
     padding: 0;
     width: 800px !important;
   }
-    .navbar-toggler {
+  .navbar-toggler {
     margin-left: 70vw;
   }
 
-    .navbar-background {
+  .navbar-background {
     height: auto !important;
   }
-
 }
 
 @media only screen and (max-width: 768px) {
@@ -142,7 +152,7 @@
     background: none;
     text-align: center;
   }
-  .arrow{
+  .arrow {
     display: none !important;
   }
   .logo-img {
@@ -167,8 +177,8 @@
     height: auto !important;
   }
   .navbar-nav {
-  margin-top: 4.5vh !important;
-}
+    margin-top: 4.5vh !important;
+  }
 }
 @media only screen and (min-width: 576px) {
   .modal-dialog {
@@ -186,6 +196,7 @@ export default {
   data() {
     return {
       user: null,
+      loading: true,
     };
   },
   mounted() {
@@ -214,6 +225,7 @@ export default {
     async metamask() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
+      this.loading = false;
       this.user = provider.getSigner();
       this.$bvModal.hide("modal-1");
     },
