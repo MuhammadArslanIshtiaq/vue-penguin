@@ -130,6 +130,9 @@
     background: none;
     text-align: center;
   }
+  .arrow{
+    display: none !important;
+  }
   .logo-img {
     display: block;
     margin: auto;
