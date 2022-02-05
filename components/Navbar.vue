@@ -188,9 +188,9 @@ export default {
       user: null,
     };
   },
-  mounted() {
-    this.metamask();
-  },
+  // mounted() {
+  //   this.metamask();
+  // },
   methods: {
     logout() {
       this.user = null;
