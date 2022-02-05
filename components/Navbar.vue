@@ -28,7 +28,7 @@
       <a href="#"
         ><img
           src="arrow.png"
-          class="align-top arrow d-sm-none d-md-block d-none d-lg-block d-sm-block"
+          class="align-top arrow d-sm-none d-md-none d-none d-lg-block d-sm-block"
           alt="Kitten"
       /></a>
     </b-navbar>
@@ -103,8 +103,17 @@
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .logo-img {
-    width: 30%;
+
+     display: block;
+    margin: auto;
+    max-width: 50%;
+    position: absolute;
+    left: 20%;
+    width: auto;
   }
+    .navbar-nav {
+  margin-top: 5.5vh !important;
+}
   .arrow {
     right: 10vw;
     width: 15%;
@@ -117,6 +126,9 @@
     margin-top: 3vw;
     padding: 0;
     width: 800px !important;
+  }
+    .navbar-toggler {
+    margin-left: 70vw;
   }
 
     .navbar-background {
@@ -154,6 +166,9 @@
   .navbar-background {
     height: auto !important;
   }
+  .navbar-nav {
+  margin-top: 4.5vh !important;
+}
 }
 @media only screen and (min-width: 576px) {
   .modal-dialog {
