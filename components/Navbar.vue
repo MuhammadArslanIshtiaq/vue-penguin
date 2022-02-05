@@ -28,7 +28,7 @@
       <a href="#"
         ><img
           src="arrow.png"
-          class="align-top arrow d-sm-none d-md-block d-none d-sm-block"
+          class="align-top arrow d-sm-none d-md-block d-none d-lg-block d-sm-block"
           alt="Kitten"
       /></a>
     </b-navbar>
@@ -99,6 +99,30 @@
 .metamask {
   background-color: #f6851c !important;
   border-color: #f6851c !important;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .logo-img {
+    width: 30%;
+  }
+  .arrow {
+    right: 10vw;
+    width: 15%;
+  }
+ .menu_background {
+    background: none;
+    text-align: center;
+  }
+    .navbar-collapse {
+    margin-top: 3vw;
+    padding: 0;
+    width: 800px !important;
+  }
+
+    .navbar-background {
+    height: auto !important;
+  }
+
 }
 
 @media only screen and (max-width: 768px) {
