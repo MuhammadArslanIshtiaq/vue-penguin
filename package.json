@@ -23,6 +23,7 @@
     "vue-sessionstorage": "^1.0.0",
     "vue-template-compiler": "^2.6.14",
     "web3": "^1.7.0",
+    "web3modal": "^1.9.5",
     "webpack": "^4.46.0"
   },
   "devDependencies": {}
