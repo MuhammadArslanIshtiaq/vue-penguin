@@ -22,12 +22,21 @@
             </b-nav-item>
           </template>
           <template v-else>
-            <b-nav-item class="menu_background" @click="connect" v-if="!user">
+            <b-nav-item class="menu_background" @click="connect" v-if="!loggedInUser">
               Connect
             </b-nav-item>
-            <b-nav-item class="menu_background" v-if="user" @click="logout">
-              Logout
-            </b-nav-item>
+            <template v-if="loggedInUser">
+              <b-nav-item
+                class="menu_background"
+                v-if="this.supportedChain.includes(chainId)"
+                @click="logout"
+              >
+                Logout
+              </b-nav-item>
+              <b-nav-item class="menu_background" v-else @click="switchNetwork">
+                Switch to AVAX
+              </b-nav-item>
+            </template>
           </template>
         </b-navbar-nav>
       </b-collapse>
@@ -172,9 +181,16 @@ import Web3Modal from "web3modal";
 
 export default {
   name: "Navbar",
+  computed: {
+    loggedInUser() {
+      return this.$store.state.user.user;
+    }
+  },
   data() {
     return {
       user: null,
+      supportedChain: [43114, "0xa86a"],
+      chainId: null,
       loading: true,
       providerOptions: {
         injected: {
@@ -195,12 +211,11 @@ export default {
           package: WalletConnectProvider,
           options: {
             rpc: {
-              137: "https://api.avax.network/ext/bc/C/rpc",
+              43114: "https://api.avax.network/ext/bc/C/rpc",
             },
           },
         },
       },
-
       web3Modal: null,
     };
   },
@@ -212,24 +227,75 @@ export default {
     });
     if (this.web3Modal.cachedProvider) {
       this.web3Modal.connect().then((instance) => {
-        const provider = new ethers.providers.Web3Provider(instance);
-        this.setUser(provider.getSigner());
+        if (instance) {
+          const provider = new ethers.providers.Web3Provider(instance);
+          instance.on("chainChanged", (chainId) => {
+            console.log(chainId);
+            this.chainId = chainId;
+          });
+          provider.on("disconnect", (error) => {
+            this.logout();
+          });
+          provider.getNetwork().then((network) => {
+            this.chainId = network.chainId;
+          });
+          this.setUser(provider.getSigner());
+        }
       });
     }
     this.loading = false;
   },
   methods: {
+    switchNetwork() {
+      const params = [
+        {
+          chainId: "0xa86a",
+          chainName: "Avalanche C-Chain",
+          nativeCurrency: "AVAX",
+          rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
+          blockExplorerUrls: ["https://snowtrace.io/"],
+        },
+      ];
+      this.user.provider.send("wallet_addEthereumChain", params).then((res) => {
+        console.log(res);
+      });
+    },
     setUser(user) {
       this.user = user;
+      user.getAddress().then((address) => {
+        this.$store.commit("user/setUser", address);
+      })
     },
     logout() {
       this.web3Modal.clearCachedProvider();
       this.user = null;
+      this.$store.commit("user/setUser", null);
     },
     async connect() {
-      const instance = await this.web3Modal.connect();
-      const provider = new ethers.providers.Web3Provider(instance);
-      this.setUser(provider.getSigner());
+      this.web3Modal
+        .connect()
+        .then((instance) => {
+          if (instance) {
+            const provider = new ethers.providers.Web3Provider(instance);
+            instance.on("chainChanged", (chainId) => {
+              this.chainId = chainId;
+            });
+            provider.on("disconnect", (error) => {
+              console.log(error);
+              this.logout();
+            });
+            provider.getNetwork().then((network) => {
+              this.chainId = network.chainId;
+              if (!this.supportedChain.includes(this.chainId)) {
+                this.switchNetwork();
+              }
+            });
+            this.setUser(provider.getSigner());
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
